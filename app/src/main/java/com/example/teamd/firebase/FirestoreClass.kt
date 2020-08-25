@@ -2,6 +2,7 @@ package com.example.teamd.firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Toast
 import com.example.teamd.activities.MainActivity
 import com.example.teamd.activities.MyProfileActivity
 import com.example.teamd.activities.SignInActivity
@@ -29,6 +30,25 @@ class FirestoreClass {
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error writing document",
+                    e
+                )
+            }
+    }
+
+    fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {
+        mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID())
+            .update(userHashMap) // A hashmap of fields which are to be updated, with a string key and any value
+            .addOnSuccessListener {
+                Log.e(activity.javaClass.simpleName, "Profile Data updated successfully!")
+                Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+                activity.profileUpdateSuccess()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while creating a board.",
                     e
                 )
             }
