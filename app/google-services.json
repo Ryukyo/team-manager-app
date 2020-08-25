@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "65785152046",
+    "firebase_url": "https://teamd-15ca8.firebaseio.com",
+    "project_id": "teamd-15ca8",
+    "storage_bucket": "teamd-15ca8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65785152046:android:943d5a85180deed28ed5bf",
+        "android_client_info": {
+          "package_name": "com.example.teamd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65785152046-6777rjqv7slll9a9cffaev1quidcr90b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjAFkd1qJIugoOVOQW9SKJ0tuQ5_QSTyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65785152046-6777rjqv7slll9a9cffaev1quidcr90b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
