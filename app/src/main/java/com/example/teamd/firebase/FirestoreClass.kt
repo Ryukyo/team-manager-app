@@ -3,6 +3,7 @@ package com.example.teamd.firebase
 import android.app.Activity
 import android.util.Log
 import com.example.teamd.activities.MainActivity
+import com.example.teamd.activities.MyProfileActivity
 import com.example.teamd.activities.SignInActivity
 import com.example.teamd.activities.SignUpActivity
 import com.example.teamd.models.User
@@ -33,7 +34,7 @@ class FirestoreClass {
             }
     }
 
-    fun signInUser(activity: Activity) {
+    fun loadUserData(activity: Activity) {
         mFireStore.collection(Constants.USERS)
 
             .document(getCurrentUserID())
@@ -50,6 +51,9 @@ class FirestoreClass {
                     }
                     is MainActivity -> {
                         activity.updateNavigationUserDetails(loggedInUser)
+                    }
+                    is MyProfileActivity -> {
+                        activity.setUserDataInUI(loggedInUser)
                     }
                 }
             }
