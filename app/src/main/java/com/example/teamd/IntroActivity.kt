@@ -9,12 +9,13 @@ import android.os.Handler
 import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
+import kotlinx.android.synthetic.main.activity_intro.*
 import kotlinx.android.synthetic.main.activity_splash.*
 
-class SplashActivity : AppCompatActivity() {
+class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(R.layout.activity_intro)
 
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -28,11 +29,15 @@ class SplashActivity : AppCompatActivity() {
         }
 
         val typeFace: Typeface = Typeface.createFromAsset(assets, "njnaruto.ttf")
-        tv_app_name.typeface = typeFace
+        tv_app_name_intro.typeface = typeFace
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, IntroActivity::class.java))
-            finish()
-        }, 2500)
+        /* Handler().postDelayed({
+             startActivity(Intent(this, IntroActivity::class.java))
+             finish()
+         }, 2500)
+
+
+
+         * */
     }
 }

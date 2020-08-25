@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TeamD</string>
+
+    <string name="image_contentDescription">image</string>
+    <string name="let_s_get_started_text">Get your team started</string>
+    <string name="intro_text_description">Multi Device Platform for Collaborating Across Teams.</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up">SIGN UP</string>
 </resources>
