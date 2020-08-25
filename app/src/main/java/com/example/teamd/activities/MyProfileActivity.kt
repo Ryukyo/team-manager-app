@@ -162,14 +162,14 @@ class MyProfileActivity : BaseActivity() {
             //adding the file to reference
             sRef.putFile(mSelectedImageFileUri!!)
                 .addOnSuccessListener { taskSnapshot ->
-                    Log.e(
+                    Log.i(
                         "Firebase Image URL",
                         taskSnapshot.metadata!!.reference!!.downloadUrl.toString()
                     )
                     // Get the downloadable url from the task snapshot
                     taskSnapshot.metadata!!.reference!!.downloadUrl
                         .addOnSuccessListener { uri ->
-                            Log.e("Downloadable Image URL", uri.toString())
+                            Log.i("Downloadable Image URL", uri.toString())
                             mProfileImageURL = uri.toString()
                             updateUserProfileData()
                         }
@@ -187,6 +187,7 @@ class MyProfileActivity : BaseActivity() {
 
     fun profileUpdateSuccess() {
         hideProgressDialog()
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
