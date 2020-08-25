@@ -1,6 +1,8 @@
 package com.example.teamd.firebase
 
+import android.app.Activity
 import android.util.Log
+import com.example.teamd.activities.MainActivity
 import com.example.teamd.activities.SignInActivity
 import com.example.teamd.activities.SignUpActivity
 import com.example.teamd.models.User
@@ -22,6 +24,7 @@ class FirestoreClass {
                 activity.userRegisteredSuccess()
             }
             .addOnFailureListener { e ->
+                activity.hideProgressDialog()
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error writing document",
@@ -30,22 +33,35 @@ class FirestoreClass {
             }
     }
 
-    fun signInUser(activity: SignInActivity) {
-
+    fun signInUser(activity: Activity) {
         mFireStore.collection(Constants.USERS)
+
             .document(getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
-                Log.e(
-                    activity.javaClass.simpleName, document.toString()
-                )
-                // Convert the document snapshot into the User Data model object
+                Log.e(activity.javaClass.simpleName, document.toString())
+
+                // Convert the document snapshot into the User Data model object.
                 val loggedInUser = document.toObject(User::class.java)!!
 
-                activity.signInSuccess(loggedInUser)
-
+                when (activity) {
+                    is SignInActivity -> {
+                        activity.signInSuccess(loggedInUser)
+                    }
+                    is MainActivity -> {
+                        activity.updateNavigationUserDetails(loggedInUser)
+                    }
+                }
             }
             .addOnFailureListener { e ->
+                when (activity) {
+                    is SignInActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is MainActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error while getting loggedIn user details",
@@ -54,12 +70,13 @@ class FirestoreClass {
             }
     }
 
-    fun getCurrentUserID(): String {
-        var currentUser = FirebaseAuth.getInstance().currentUser
-        var currentUserId = ""
-        if (currentUser != null) {
-            currentUserId = currentUser.uid
+
+        fun getCurrentUserID(): String {
+            var currentUser = FirebaseAuth.getInstance().currentUser
+            var currentUserId = ""
+            if (currentUser != null) {
+                currentUserId = currentUser.uid
+            }
+            return currentUserId
         }
-        return currentUserId
     }
-}

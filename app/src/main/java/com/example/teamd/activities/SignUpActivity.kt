@@ -1,7 +1,6 @@
 package com.example.teamd.activities
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.WindowInsets
@@ -32,6 +31,10 @@ class SignUpActivity : BaseActivity() {
             )
         }
         setupActionBar()
+
+        btn_sign_up.setOnClickListener {
+            registerUser()
+        }
     }
 
     fun userRegisteredSuccess() {
@@ -58,8 +61,6 @@ class SignUpActivity : BaseActivity() {
         }
 
         toolbar_sign_up_activity.setNavigationOnClickListener { onBackPressed() }
-
-        btn_sign_up.setOnClickListener { registerUser() }
     }
 
     private fun registerUser(){
@@ -72,7 +73,7 @@ class SignUpActivity : BaseActivity() {
             showProgressDialog(resources.getString(R.string.please_wait))
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(
                 OnCompleteListener<AuthResult> { task ->
-                    hideProgressDialog()
+                   hideProgressDialog()
                     if (task.isSuccessful) {
 
                         val firebaseUser: FirebaseUser = task.result!!.user!!

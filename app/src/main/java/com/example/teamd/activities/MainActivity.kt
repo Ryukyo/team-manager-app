@@ -4,9 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.example.teamd.R
+import com.example.teamd.firebase.FirestoreClass
+import com.example.teamd.models.User
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +25,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupActionBar()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        FirestoreClass().signInUser(this)
     }
 
     override fun onBackPressed() {
@@ -65,5 +72,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         } else {
             drawer_layout.openDrawer(GravityCompat.START)
         }
+    }
+
+    fun updateNavigationUserDetails(user: User) {
+        val headerView = nav_view.getHeaderView(0)
+        val navUserImage = headerView.findViewById<ImageView>(R.id.iv_user_image)
+
+        // Load the user image in the ImageView.
+        Glide
+            .with(this@MainActivity)
+            .load(user.image)
+            .centerCrop()
+            .placeholder(R.drawable.ic_user_place_holder)
+            .into(navUserImage)
+
+        val navUsername = headerView.findViewById<TextView>(R.id.tv_username)
+
+        navUsername.text = user.name
     }
 }
