@@ -1,21 +1,17 @@
-package com.example.teamd
+package com.example.teamd.activities
 
-import android.content.Intent
-import android.graphics.Typeface
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
-import kotlinx.android.synthetic.main.activity_intro.*
-import kotlinx.android.synthetic.main.activity_splash.*
+import com.example.teamd.R
+import kotlinx.android.synthetic.main.activity_sign_in.*
 
-class IntroActivity : AppCompatActivity() {
+class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_intro)
+        setContentView(R.layout.activity_sign_in)
 
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -27,17 +23,18 @@ class IntroActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+        setupActionBar()
+    }
+    private fun setupActionBar() {
 
-        val typeFace: Typeface = Typeface.createFromAsset(assets, "njnaruto.ttf")
-        tv_app_name_intro.typeface = typeFace
+        setSupportActionBar(toolbar_sign_in_activity)
 
-        /* Handler().postDelayed({
-             startActivity(Intent(this, IntroActivity::class.java))
-             finish()
-         }, 2500)
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_black_color_back_24dp)
+        }
 
-
-
-         * */
+        toolbar_sign_in_activity.setNavigationOnClickListener { onBackPressed() }
     }
 }

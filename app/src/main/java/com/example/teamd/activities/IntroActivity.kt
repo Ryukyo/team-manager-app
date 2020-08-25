@@ -1,20 +1,19 @@
-package com.example.teamd
+package com.example.teamd.activities
 
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
-import kotlinx.android.synthetic.main.activity_splash.*
+import com.example.teamd.R
+import kotlinx.android.synthetic.main.activity_intro.*
 
-class SplashActivity : AppCompatActivity() {
+class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(R.layout.activity_intro)
 
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -28,11 +27,14 @@ class SplashActivity : AppCompatActivity() {
         }
 
         val typeFace: Typeface = Typeface.createFromAsset(assets, "njnaruto.ttf")
-        tv_app_name.typeface = typeFace
+        tv_app_name_intro.typeface = typeFace
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, IntroActivity::class.java))
-            finish()
-        }, 2500)
+        btn_sign_in_intro.setOnClickListener{
+            startActivity(Intent(this, SignInActivity::class.java))
+        }
+
+        btn_sign_up_intro.setOnClickListener{
+            startActivity(Intent(this, SignUpActivity::class.java))
+        }
     }
 }
