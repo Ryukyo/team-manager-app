@@ -10,6 +10,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import com.example.teamd.R
+import com.example.teamd.models.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -97,5 +98,13 @@ class SignInActivity : BaseActivity() {
         } else {
             true
         }
+    }
+
+    fun signInSuccess(user: User) {
+
+        hideProgressDialog()
+
+        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+        finish()
     }
 }
