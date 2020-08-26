@@ -3,10 +3,8 @@ package com.example.teamd.firebase
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
-import com.example.teamd.activities.MainActivity
-import com.example.teamd.activities.MyProfileActivity
-import com.example.teamd.activities.SignInActivity
-import com.example.teamd.activities.SignUpActivity
+import com.example.teamd.activities.*
+import com.example.teamd.models.Board
 import com.example.teamd.models.User
 import com.example.teamd.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +28,26 @@ class FirestoreClass {
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error writing document",
+                    e
+                )
+            }
+    }
+
+    fun createBoard(activity: CreateBoardActivity, board: Board) {
+
+        mFireStore.collection(Constants.BOARDS)
+            .document()
+            .set(board, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.i(activity.javaClass.simpleName, "Board created successfully.")
+                Toast.makeText(activity, "Board created successfully.", Toast.LENGTH_SHORT).show()
+                activity.boardCreatedSuccessfully()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while creating a board.",
                     e
                 )
             }
