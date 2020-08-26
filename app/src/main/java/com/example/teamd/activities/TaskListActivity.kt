@@ -40,7 +40,9 @@ class TaskListActivity : BaseActivity() {
         // Handle presses on the action bar menu items
         when (item.itemId) {
             R.id.action_members -> {
-                startActivity(Intent(this@TaskListActivity, MembersActivity::class.java))
+                val intent = Intent(this@TaskListActivity, MembersActivity::class.java)
+                intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
+                startActivity(intent)
                 return true
             }
         }
@@ -86,7 +88,7 @@ class TaskListActivity : BaseActivity() {
 
         // Add task to first position of ArrayList
         mBoardDetails.taskList.add(0, task)
-        // Remove the last position (add list)
+        // Remove the last position ("add list")
         mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
 
 
@@ -95,7 +97,6 @@ class TaskListActivity : BaseActivity() {
     }
 
     fun updateTaskList(position: Int, listName: String, model: Task) {
-
         val task = Task(listName, model.createdBy)
 
         mBoardDetails.taskList[position] = task

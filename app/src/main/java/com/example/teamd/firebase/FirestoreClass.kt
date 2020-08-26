@@ -148,23 +148,22 @@ class FirestoreClass {
                 }
         }
 
-    fun addUpdateTaskList(activity: TaskListActivity, board: Board) {
-        val taskListHashMap = HashMap<String, Any>()
-        taskListHashMap[Constants.TASK_LIST] = board.taskList
+        fun addUpdateTaskList(activity: TaskListActivity, board: Board) {
+            val taskListHashMap = HashMap<String, Any>()
+            taskListHashMap[Constants.TASK_LIST] = board.taskList
 
-        mFireStore.collection(Constants.BOARDS)
-            .document(board.documentId)
-            .update(taskListHashMap)
-            .addOnSuccessListener {
-                Log.i(activity.javaClass.simpleName, "TaskList updated successfully.")
-                activity.addUpdateTaskListSuccess()
-            }
-            .addOnFailureListener { e ->
-                activity.hideProgressDialog()
-                Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
-            }
-    }
-
+            mFireStore.collection(Constants.BOARDS)
+                .document(board.documentId)
+                .update(taskListHashMap)
+                .addOnSuccessListener {
+                    Log.i(activity.javaClass.simpleName, "TaskList updated successfully.")
+                    activity.addUpdateTaskListSuccess()
+                }
+                .addOnFailureListener { e ->
+                    activity.hideProgressDialog()
+                    Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
+                }
+        }
 
         fun getCurrentUserID(): String {
             var currentUser = FirebaseAuth.getInstance().currentUser
@@ -173,5 +172,30 @@ class FirestoreClass {
                 currentUserId = currentUser.uid
             }
             return currentUserId
+        }
+
+        fun getAssignedMembersListDetails(activity: MembersActivity, assignedTo: ArrayList<String>) {
+            mFireStore.collection(Constants.USERS)
+                .whereIn(Constants.ID, assignedTo)
+                .get()
+                .addOnSuccessListener { document ->
+                    Log.i(activity.javaClass.simpleName, document.documents.toString())
+                    val usersList: ArrayList<User> = ArrayList()
+
+                    for (i in document.documents) {
+                        // Convert all the document snapshots
+                        val user = i.toObject(User::class.java)!!
+                        usersList.add(user)
+                    }
+                    activity.setupMembersList(usersList)
+                }
+                .addOnFailureListener { e ->
+                    activity.hideProgressDialog()
+                    Log.e(
+                        activity.javaClass.simpleName,
+                        "Error while creating a board.",
+                        e
+                    )
+                }
         }
     }
