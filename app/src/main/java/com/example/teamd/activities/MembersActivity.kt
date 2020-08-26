@@ -1,5 +1,6 @@
 package com.example.teamd.activities
 
+import android.app.Activity
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +20,8 @@ import kotlinx.android.synthetic.main.dialog_search_member.*
 class MembersActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
     private lateinit var mAssignedMembersList:ArrayList<User>
+    private var anyChangesDone: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,13 @@ class MembersActivity : BaseActivity() {
             )
         }
         setupActionBar()
+    }
+
+    override fun onBackPressed() {
+        if (anyChangesDone) {
+            setResult(Activity.RESULT_OK)
+        }
+        super.onBackPressed()
     }
 
     private fun setupActionBar() {
@@ -107,6 +117,7 @@ class MembersActivity : BaseActivity() {
     fun memberAssignSuccess(user: User) {
         hideProgressDialog()
         mAssignedMembersList.add(user)
+        anyChangesDone = true
         setupMembersList(mAssignedMembersList)
     }
 }
