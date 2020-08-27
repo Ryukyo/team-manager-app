@@ -1,8 +1,9 @@
-<!-- <div align="center">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSaKh6HIMYJzi_P4DpqhwfhSHHX0mRCSW78mA&usqp=CAU" width="450" height="300"/>
-</div> -->
 
-![Homepage](/Screenshots/Login.PNG?raw=true "TeamD_Login")
+<div align="center">
+  <img src="https://https://github.com/Ryukyo/team-manager-app/blob/master/Screenshots/Login.PNG?raw=true" alt="Sublime's custom image"/>
+</div>
+
+<!-- ![Homepage](/Screenshots/Login.PNG?raw=true "TeamD_Login") -->
 
 # TeamD - Keeping Track of Team Tasks
 
