@@ -148,22 +148,32 @@ class FirestoreClass {
                 }
         }
 
-        fun addUpdateTaskList(activity: TaskListActivity, board: Board) {
-            val taskListHashMap = HashMap<String, Any>()
-            taskListHashMap[Constants.TASK_LIST] = board.taskList
+    fun addUpdateTaskList(activity: Activity, board: Board) {
 
-            mFireStore.collection(Constants.BOARDS)
-                .document(board.documentId)
-                .update(taskListHashMap)
-                .addOnSuccessListener {
-                    Log.i(activity.javaClass.simpleName, "TaskList updated successfully.")
+        val taskListHashMap = HashMap<String, Any>()
+        taskListHashMap[Constants.TASK_LIST] = board.taskList
+
+        mFireStore.collection(Constants.BOARDS)
+            .document(board.documentId)
+            .update(taskListHashMap)
+            .addOnSuccessListener {
+                Log.i(activity.javaClass.simpleName, "TaskList updated successfully.")
+
+                if (activity is TaskListActivity) {
+                    activity.addUpdateTaskListSuccess()
+                } else if (activity is CardDetailsActivity) {
                     activity.addUpdateTaskListSuccess()
                 }
-                .addOnFailureListener { e ->
+            }
+            .addOnFailureListener { e ->
+                if (activity is TaskListActivity) {
                     activity.hideProgressDialog()
-                    Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
+                } else if (activity is TaskListActivity) {
+                    activity.hideProgressDialog()
                 }
-        }
+                Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
+            }
+    }
 
         fun getCurrentUserID(): String {
             var currentUser = FirebaseAuth.getInstance().currentUser
