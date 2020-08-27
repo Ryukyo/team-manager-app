@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="https://https://github.com/Ryukyo/team-manager-app/blob/master/Screenshots/Login.PNG?raw=true" alt="Sublime's custom image"/>
+  <img src="https://github.com/Ryukyo/team-manager-app/blob/master/Screenshots/Login.PNG?raw=true" alt="Sublime's custom image"/>
 </div>
 
 <!-- ![Homepage](/Screenshots/Login.PNG?raw=true "TeamD_Login") -->
