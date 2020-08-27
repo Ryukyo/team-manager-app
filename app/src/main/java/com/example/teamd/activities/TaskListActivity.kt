@@ -169,6 +169,15 @@ class TaskListActivity : BaseActivity() {
         rv_task_list.adapter = adapter
     }
 
+    fun updateCardsInTaskList(taskListPosition: Int, cards: ArrayList<Card>) {
+        // Remove the last item
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
+        mBoardDetails.taskList[taskListPosition].cards = cards
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
+    }
+
     companion object {
         const val MEMBERS_REQUEST_CODE: Int = 13
         const val CARD_DETAILS_REQUEST_CODE: Int = 14
