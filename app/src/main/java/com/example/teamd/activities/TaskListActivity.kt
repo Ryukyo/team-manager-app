@@ -14,12 +14,14 @@ import com.example.teamd.firebase.FirestoreClass
 import com.example.teamd.models.Board
 import com.example.teamd.models.Card
 import com.example.teamd.models.Task
+import com.example.teamd.models.User
 import com.example.teamd.utils.Constants
 import kotlinx.android.synthetic.main.activity_task_list.*
 
 class TaskListActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
     private lateinit var mBoardDocumentId: String
+    private lateinit var mAssignedMembersDetailList: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +41,6 @@ class TaskListActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle presses on the action bar menu items
         when (item.itemId) {
             R.id.action_members -> {
                 val intent = Intent(this@TaskListActivity, MembersActivity::class.java)
@@ -88,6 +89,12 @@ class TaskListActivity : BaseActivity() {
 
         val adapter = TaskListItemsAdapter(this, board.taskList)
         rv_task_list.adapter = adapter
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().getAssignedMembersListDetails(
+            this@TaskListActivity,
+            mBoardDetails.assignedTo
+        )
     }
 
     fun addUpdateTaskListSuccess() {
@@ -104,7 +111,6 @@ class TaskListActivity : BaseActivity() {
         mBoardDetails.taskList.add(0, task)
         // Remove the last position ("add list")
         mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
-
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
@@ -154,7 +160,13 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
+        intent.putExtra(Constants.BOARD_MEMBERS_LIST, mAssignedMembersDetailList)
         startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE)
+    }
+
+    fun boardMembersDetailList(list: ArrayList<User>) {
+        mAssignedMembersDetailList = list
+        hideProgressDialog()
     }
 
     companion object {

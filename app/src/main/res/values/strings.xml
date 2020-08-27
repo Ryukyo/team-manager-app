@@ -64,4 +64,5 @@
     <string name="no">No</string>
 
     <string name="str_select_label_color">Select Label Color</string>
+    <string name="str_select_member">Select Member</string>
 </resources>
