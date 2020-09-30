@@ -14,7 +14,7 @@ import com.example.teamd.R
 import com.example.teamd.activities.MainActivity
 import com.example.teamd.activities.SignInActivity
 import com.example.teamd.firebase.FirestoreClass
-import com.google.firebase.messaging.Constants
+import com.example.teamd.utils.Constants
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -30,7 +30,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         remoteMessage.data.isNotEmpty().let {
             Log.i(TAG, "Message data payload: " + remoteMessage.data)
-            
+
+            // Assign title and message to the local variables
+            val title = remoteMessage.data[Constants.FCM_KEY_TITLE]!!
+            val message = remoteMessage.data[Constants.FCM_KEY_MESSAGE]!!
+
+            sendNotification(title, message)
         }
 
         remoteMessage.notification?.let {
@@ -40,9 +45,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Log.e(TAG, "Refreshed token: $token")
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+        sendRegistrationToServer(token)
     }
 
-
+    private fun sendRegistrationToServer(token: String?) {
+        // Here we have saved the token in the Shared Preferences
+        val sharedPreferences =
+            this.getSharedPreferences(Constants.TEAMD_PREFERENCES, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString(Constants.FCM_TOKEN, token)
+        editor.apply()
+    }
 
     private fun sendNotification(title: String, message: String) {
         // Send user to the main screen if already logged in else to the login screen.
